@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/style.css">
+    <title>Log Viewer</title>
+
+
+    <script>
+        // Function to scroll to the first highlighted keyword on page load
+        function scrollToHighlighted() {
+            var highlightedElements = document.querySelectorAll('.highlight');
+            if (highlightedElements.length > 0) {
+                highlightedElements[0].scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Function to highlight search results in log entries
+        function highlightSearchResults(keyword) {
+            var logEntries = document.querySelectorAll('.log-entries pre');
+            logEntries.forEach(function (entry) {
+                var entryHTML = entry.innerHTML;
+
+                // Create a case-insensitive regular expression for the search keyword
+                var regex = new RegExp('(' + keyword + ')', 'gi');
+                
+                // Highlight the search keyword in the log entry HTML
+                entry.innerHTML = entryHTML.replace(regex, '<span class="highlight">$1</span>');
+            });
+        }
+
+        // Function to move to the next occurrence of the highlighted keyword
+        function searchNext() {
+            var currentHighlight = document.querySelector('.highlight');
+            if (currentHighlight) {
+                currentHighlight.classList.remove('highlight');
+                var nextHighlight = currentHighlight.nextElementSibling;
+                if (nextHighlight) {
+                    nextHighlight.classList.add('highlight');
+                    // Scroll to the next highlighted keyword with smooth behavior
+                    nextHighlight.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        }
+
+        // Function to move to the previous occurrence of the highlighted keyword
+        function searchPrevious() {
+            var currentHighlight = document.querySelector('.highlight');
+            if (currentHighlight) {
+                currentHighlight.classList.remove('highlight');
+                var previousHighlight = currentHighlight.previousElementSibling;
+                if (previousHighlight) {
+                    previousHighlight.classList.add('highlight');
+                    // Scroll to the previous highlighted keyword with smooth behavior
+                    previousHighlight.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="scrollToHighlighted()">
+    <div class="container">
+        <h1>Log Viewer</h1>
+
+         <!-- Search form with buttons for navigation -->
+        <form action="/" method="get">
+            <label for="search">Search:</label>
+            <input type="text" id="search" name="search" value="{{ search_keyword }}">
+            <input type="submit" value="Search">
+            <button type="button" onclick="searchNext()">Next</button>
+            <button type="button" onclick="searchPrevious()">Previous</button>
+        </form>
+
+        <div class="log-entries">
+
+             <!-- Preformatted text for maintaining line breaks -->
+            <pre>
+                <!-- Loop through each log entry -->
+                {% for entry in log_entries %}
+
+                <!-- Use the 'safe' filter to render HTML in log entries -->
+                    {{ entry | safe }}<br>
+                    
+                {% endfor %}
+            </pre>
+        </div>
+    </div>
+</body>
+</html>

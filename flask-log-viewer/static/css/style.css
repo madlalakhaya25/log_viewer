@@ -1,0 +1,45 @@
+/* font family */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Center the main heading 
+/* Add a 3D effect */
+h1 {
+    text-align: center;
+    text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+    color: #0099ff;
+    font-weight: bold; 
+    font-size: 2em; 
+}
+
+/* Style for the log entries container */
+.log-entries {
+    margin-top: 30px; 
+    max-height: 600px; 
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ecf0f1; 
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* Style for error messages */
+.error {
+    color: #ff1900; 
+    font-weight: bold;
+}
+
+/* Style for warning messages */
+.warning {
+    color: #f39c12; 
+    font-weight: bold;
+}
+
+/* Style for highlighted search results */
+.highlight {
+    background-color: #f9e79f; 
+    font-weight: bold;
+    border: 1px solid #f39c12; 
+    padding: 10px;
+}

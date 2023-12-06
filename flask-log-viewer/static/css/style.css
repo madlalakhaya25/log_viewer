@@ -28,12 +28,36 @@ h1 {
 .error {
     color: #ff1900; 
     font-weight: bold;
+    background-color: #fdd;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
 /* Style for warning messages */
 .warning {
     color: #f39c12; 
     font-weight: bold;
+    background-color: #ffeeba;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Style for INFO messages - Redis is up */
+.redis-up {
+    color: #007BFF;
+    font-weight: bold;
+    background-color: #cce5ff;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Style for INFO messages - deployed bots */
+.deployed-bots {
+    color: #28a745;
+    font-weight: bold;
+    background-color: #d4edda;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
 /* Style for highlighted search results */
@@ -42,4 +66,18 @@ h1 {
     font-weight: bold;
     border: 1px solid #f39c12; 
     padding: 10px;
+}
+
+.arrow-down {
+    transition: transform 0.3s ease-in-out;
+    position: relative; /* Add this to make ::before positioning relative to this container */
+}
+
+.arrow-down::before {
+    content: '→';
+    display: inline-block;
+    width: 20px;  /* Adjust the width as needed */
+    height: 20px; /* Adjust the height as needed */
+    position: absolute; /* Position the arrow relative to its container */
+    left: -25px; /* Adjust the positioning as needed */
 }

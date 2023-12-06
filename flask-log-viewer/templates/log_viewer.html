@@ -4,10 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/style.css">
+
     <title>Log Viewer</title>
 
-
     <script>
+
+function toggleLogDetails(logId) {
+            var logDetails = document.getElementById('details-' + logId);
+            var arrow = document.getElementById('arrow-' + logId);
+
+            // Toggle visibility of log details and rotate the arrow icon
+            logDetails.style.display = (logDetails.style.display === 'none' || logDetails.style.display === '') ? 'block' : 'none';
+            arrow.classList.toggle('rotate');
+
+            // If log details are visible, format them based on content
+            if (logDetails.style.display === 'block') {
+                var logEntry = document.getElementById('entry-' + logId).textContent;
+
+                try {
+                    
+                    // Attempt to parse the log entry as JSON
+                    var jsonLog = JSON.parse(logEntry);
+                    logDetails.innerHTML = '<pre>' + JSON.stringify(jsonLog, null, 2) + '</pre>';
+
+                } catch (error) {
+                    // If parsing as JSON fails, assume it's a regular log entry
+                    logDetails.innerHTML = '<pre>' + logEntry + '</pre>';
+                }
+            }
+        }
+
+
+
+        function rotateArrow(logId) {
+            var arrow = document.getElementById('arrow-' + logId);
+            arrow.classList.toggle('rotate');
+        }
+
         // Function to scroll to the first highlighted keyword on page load
         function scrollToHighlighted() {
             var highlightedElements = document.querySelectorAll('.highlight');
@@ -21,11 +54,7 @@
             var logEntries = document.querySelectorAll('.log-entries pre');
             logEntries.forEach(function (entry) {
                 var entryHTML = entry.innerHTML;
-
-                // Create a case-insensitive regular expression for the search keyword
                 var regex = new RegExp('(' + keyword + ')', 'gi');
-                
-                // Highlight the search keyword in the log entry HTML
                 entry.innerHTML = entryHTML.replace(regex, '<span class="highlight">$1</span>');
             });
         }
@@ -38,7 +67,6 @@
                 var nextHighlight = currentHighlight.nextElementSibling;
                 if (nextHighlight) {
                     nextHighlight.classList.add('highlight');
-                    // Scroll to the next highlighted keyword with smooth behavior
                     nextHighlight.scrollIntoView({ behavior: 'smooth' });
                 }
             }
@@ -52,7 +80,6 @@
                 var previousHighlight = currentHighlight.previousElementSibling;
                 if (previousHighlight) {
                     previousHighlight.classList.add('highlight');
-                    // Scroll to the previous highlighted keyword with smooth behavior
                     previousHighlight.scrollIntoView({ behavior: 'smooth' });
                 }
             }
@@ -62,29 +89,35 @@
 <body onload="scrollToHighlighted()">
     <div class="container">
         <h1>Log Viewer</h1>
+    <!-- Search form with buttons for navigation -->
+    <form action="/" method="get">
+        <label for="search">Search:</label>
+        <input type="text" id="search" name="search" value="{{ search_keyword }}">
+        <input type="submit" value="Search">
+        <button type="button" onclick="searchNext()">Next</button>
+        <button type="button" onclick="searchPrevious()">Previous</button>
+    </form>
 
-         <!-- Search form with buttons for navigation -->
-        <form action="/" method="get">
-            <label for="search">Search:</label>
-            <input type="text" id="search" name="search" value="{{ search_keyword }}">
-            <input type="submit" value="Search">
-            <button type="button" onclick="searchNext()">Next</button>
-            <button type="button" onclick="searchPrevious()">Previous</button>
-        </form>
-
-        <div class="log-entries">
-
-             <!-- Preformatted text for maintaining line breaks -->
-            <pre>
-                <!-- Loop through each log entry -->
-                {% for entry in log_entries %}
-
-                <!-- Use the 'safe' filter to render HTML in log entries -->
-                    {{ entry | safe }}<br>
-                    
-                {% endfor %}
-            </pre>
-        </div>
+    <div class="log-entries">
+        <pre>
+            {% for entry in log_entries %}
+                <!-- Inside the <div class="log-entries"> ... </div> block in log_viewer.html -->
+                <div onclick="toggleLogDetails('{{ loop.index0 }}');" style="cursor: pointer;">
+                    <span id="arrow-{{ loop.index0 }}" class="arrow-down"></span> {{ entry | safe }}<br>
+                    <div class="log-details" id="details-{{ loop.index0 }}">
+                        {% if 'deployed_bots' in entry %}
+                            <!-- Decode HTML entities and display JSON data -->
+                            {% set decoded_entry = entry | replace('&lt;', '<') | replace('&gt;', '>') | replace('&quot;', '"') | replace('&#39;', "'") %}
+                            <pre>{{ decoded_entry | safe }}</pre>
+                        {% else %}
+                            {{ entry | safe }}
+                        {% endif %}
+                    </div>
+                </div>
+                
+            {% endfor %}
+        </pre>
     </div>
+</div>
 </body>
 </html>

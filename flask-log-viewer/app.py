@@ -3,29 +3,45 @@ import re
 
 app = Flask(__name__)
 
+
+
 def get_log_entries(log_file_path):
     with open(log_file_path, 'r') as file:
-
         # Read the content of the log file and split it into a list of entries
-        return file.read().split('\n')
+        logs = file.read().split('\n')
+
+        # Process logs to replace Unicode characters
+        processed_logs = [log.replace('\u003c', '<').replace('\u003e', '>') for log in logs]
+
+        return processed_logs
+
 
 def highlight_entries(log_entries, keyword=None):
-
     highlighted_entries = []
-    for entry in log_entries:
 
+    for entry in log_entries:
         # Highlight search keyword if provided and present in the entry
         if keyword and keyword.lower() in entry.lower():
             entry = re.sub(f'({re.escape(keyword)})', r'<span class="highlight">\1</span>', entry, flags=re.IGNORECASE)
 
-        # Highlight entries containing "error"
-        elif 'error' in entry.lower():
+        # Highlight ERROR entries
+        elif 'ERROR' in entry:
             entry = f'<span class="error">{entry}</span>'
 
-        # Highlight entries containing "warning"
-        elif 'warning' in entry.lower():
+        # Highlight WARNING entries
+        elif 'WARNING' in entry:
             entry = f'<span class="warning">{entry}</span>'
+
+        # Highlight INFO entries containing "Redis is up"
+        elif 'INFO' in entry and 'Redis is up' in entry:
+            entry = f'<span class="redis-up">{entry}</span>'
+
+        # Highlight INFO entries for deployed bots
+        elif 'INFO' in entry and 'deployed_bots' in entry:
+            entry = f'<span class="deployed-bots">{entry}</span>'
+
         highlighted_entries.append(entry)
+
     return highlighted_entries
 
 

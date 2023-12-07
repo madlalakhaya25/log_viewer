@@ -1,83 +1,130 @@
-/* font family */
+/* Font family */
 body {
     font-family: Arial, sans-serif;
 }
 
-/* Center the main heading 
-/* Add a 3D effect */
+/* Header styles */
 h1 {
     text-align: center;
     text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
     color: #0099ff;
-    font-weight: bold; 
-    font-size: 2em; 
+    font-weight: bold;
+    font-size: 2em;
 }
 
-/* Style for the log entries container */
+/* Log entries container */
 .log-entries {
-    margin-top: 30px; 
-    max-height: 600px; 
+    margin-top: 30px;
+    max-height: 600px;
     overflow-y: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #ecf0f1; 
+    background-color: #ecf0f1;
     border-radius: 10px;
     padding: 20px;
 }
 
-/* Style for error messages */
+/* Error messages */
 .error {
-    color: #ff1900; 
+    color: #ff1900;
     font-weight: bold;
-    background-color: #fdd;
     padding: 10px;
     margin-bottom: 10px;
 }
 
-/* Style for warning messages */
+/* Warning messages */
 .warning {
-    color: #f39c12; 
+    color: #f39c12;
     font-weight: bold;
     background-color: #ffeeba;
     padding: 10px;
     margin-bottom: 10px;
 }
 
-/* Style for INFO messages - Redis is up */
+/* INFO messages - Redis is up */
 .redis-up {
     color: #007BFF;
     font-weight: bold;
-    background-color: #cce5ff;
     padding: 10px;
     margin-bottom: 10px;
 }
 
-/* Style for INFO messages - deployed bots */
+/* INFO messages - Deployed bots */
 .deployed-bots {
     color: #28a745;
     font-weight: bold;
-    background-color: #d4edda;
     padding: 10px;
     margin-bottom: 10px;
 }
 
-/* Style for highlighted search results */
+/* Highlighted search results */
 .highlight {
-    background-color: #f9e79f; 
+    background-color: #f9e79f;
     font-weight: bold;
-    border: 1px solid #f39c12; 
+    border: 1px solid #f39c12;
     padding: 10px;
 }
 
+/* Arrow styles */
 .arrow-down {
     transition: transform 0.3s ease-in-out;
-    position: relative; /* Add this to make ::before positioning relative to this container */
+    position: relative;
 }
 
 .arrow-down::before {
     content: '→';
     display: inline-block;
-    width: 20px;  /* Adjust the width as needed */
-    height: 20px; /* Adjust the height as needed */
-    position: absolute; /* Position the arrow relative to its container */
-    left: -25px; /* Adjust the positioning as needed */
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: -25px;
+}
+
+/* Search input styles */
+input#search {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+input#search:focus {
+    border-color: #3498db;
+}
+
+/* Submit button styles */
+input[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+input[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+/* Show details button styles */
+button.show-details,
+button.search-button,
+button.next-button,
+button.previous-button {
+    background-color: #2ecc71;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button.show-details:hover,
+button.search-button:hover,
+button.next-button:hover,
+button.previous-button:hover {
+    background-color: #27ae60;
 }

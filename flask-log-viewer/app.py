@@ -4,7 +4,6 @@ import re
 app = Flask(__name__)
 
 
-
 def get_log_entries(log_file_path):
     with open(log_file_path, 'r') as file:
         # Read the content of the log file and split it into a list of entries
@@ -63,6 +62,7 @@ def index():
 
     # Render the log viewer template with the processed log entries
     return render_template('log_viewer.html', log_entries=log_entries, search_keyword=keyword)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

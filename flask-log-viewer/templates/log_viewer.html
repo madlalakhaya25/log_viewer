@@ -1,70 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/style.css">
-
     <title>Log Viewer</title>
-
+    <style></style>
     <script>
+        var logEntries = {{ log_entries | tojson | safe }};
 
-function toggleLogDetails(logId) {
+        function toggleLogDetails(logId) {
             var logDetails = document.getElementById('details-' + logId);
             var arrow = document.getElementById('arrow-' + logId);
 
-            // Toggle visibility of log details and rotate the arrow icon
-            logDetails.style.display = (logDetails.style.display === 'none' || logDetails.style.display === '') ? 'block' : 'none';
-            arrow.classList.toggle('rotate');
+            if (logDetails && arrow) {
+                logDetails.style.display = logDetails.style.display === 'block' ? 'none' : 'block';
+                arrow.classList.toggle('rotate');
 
-            // If log details are visible, format them based on content
-            if (logDetails.style.display === 'block') {
-                var logEntry = document.getElementById('entry-' + logId).textContent;
-
-                try {
-                    
-                    // Attempt to parse the log entry as JSON
-                    var jsonLog = JSON.parse(logEntry);
-                    logDetails.innerHTML = '<pre>' + JSON.stringify(jsonLog, null, 2) + '</pre>';
-
-                } catch (error) {
-                    // If parsing as JSON fails, assume it's a regular log entry
-                    logDetails.innerHTML = '<pre>' + logEntry + '</pre>';
+                if (logDetails.style.display === 'block') {
+                    var logEntry = logEntries[logId - 1];
+                    updateLogDetails(logEntry, logDetails);
                 }
             }
         }
 
-
-
-        function rotateArrow(logId) {
-            var arrow = document.getElementById('arrow-' + logId);
-            arrow.classList.toggle('rotate');
-        }
-
-        // Function to scroll to the first highlighted keyword on page load
-        function scrollToHighlighted() {
-            var highlightedElements = document.querySelectorAll('.highlight');
-            if (highlightedElements.length > 0) {
-                highlightedElements[0].scrollIntoView({ behavior: 'smooth' });
+        function updateLogDetails(logEntry, logDetails) {
+            // Check log entry format and display accordingly
+            if (isJson(logEntry)) {
+                displayJsonDetails(logEntry, logDetails);
+            } else {
+                displayDefaultDetails(logEntry, logDetails);
             }
         }
 
-        // Function to highlight search results in log entries
-        function highlightSearchResults(keyword) {
-            var logEntries = document.querySelectorAll('.log-entries pre');
-            logEntries.forEach(function (entry) {
-                var entryHTML = entry.innerHTML;
-                var regex = new RegExp('(' + keyword + ')', 'gi');
-                entry.innerHTML = entryHTML.replace(regex, '<span class="highlight">$1</span>');
-            });
+        function isJson(str) {
+            try {
+                JSON.parse(str);
+                return true;
+            } catch (e) {
+                return false;
+            }
         }
 
-        // Function to move to the next occurrence of the highlighted keyword
+        function displayDefaultDetails(logEntry, logDetails) {
+    // Split log entry into parts
+    var parts = logEntry.split(' - ');
+
+    // Check if there are enough parts
+    if (parts.length >= 4) {
+        var timestamp = parts[0];
+        var logLevel = parts[1].trim();
+        var logMessage = parts.slice(3).join(' - ');
+
+        // Initialize HTML variable
+        var html = '<div><strong>Timestamp:</strong> ' + timestamp + '</div>';
+        html += '<div><strong>Log Level:</strong> ' + logLevel + '</div>';
+
+        // Check log level and handle accordingly
+        if (logLevel === 'INFO' || logLevel === 'ERROR') {
+            // INFO and ERROR log specific handling
+            html += '<div><strong>Log Message:</strong></div><pre>' + logMessage + '</pre>';
+        } else {
+            // Check if the log message contains "deployed_bots ==="
+            var deployedBotsIndex = logMessage.indexOf('deployed_bots ===');
+
+            if (deployedBotsIndex !== -1) {
+                var jsonContent = logMessage.substring(deployedBotsIndex + 'deployed_bots ==='.length).trim();
+
+                try {
+                    var deployedBots = JSON.parse(jsonContent);
+
+                    // Display deployed bots
+                    html += '<div><strong>Deployed Bots:</strong></div>';
+                    deployedBots.forEach(function (bot) {
+                        html += '<div><pre>';
+                        html += 'BotName: ' + bot.BotName + '<br>';
+                        html += 'BotID: ' + bot.BotID + '<br>';
+                        html += 'DateCreated: ' + bot.DateCreated + '<br>';
+                        html += 'Languages: ' + JSON.stringify(bot.Languages) + '<br>';
+                        html += 'Platforms: ' + JSON.stringify(bot.Platforms) + '<br></pre></div>';
+                    });
+                } catch (e) {
+                    // JSON parsing failed, display default details without error message
+                    html += '<div><strong>Log Message:</strong></div><pre>' + logMessage + '</pre>';
+                }
+            } else {
+                // Default handling for other log levels
+                html += '<div><strong>Log Message:</strong></div><pre>' + logMessage + '</pre>';
+            }
+        }
+        // Set the HTML content for log details
+        logDetails.innerHTML = html;
+    } else {
+        // Handle default format if there are not enough parts
+        logDetails.innerHTML = '<pre>' + logEntry + '</pre>';
+    }
+}
         function searchNext() {
             var currentHighlight = document.querySelector('.highlight');
+
             if (currentHighlight) {
                 currentHighlight.classList.remove('highlight');
                 var nextHighlight = currentHighlight.nextElementSibling;
+
                 if (nextHighlight) {
                     nextHighlight.classList.add('highlight');
                     nextHighlight.scrollIntoView({ behavior: 'smooth' });
@@ -72,52 +111,53 @@ function toggleLogDetails(logId) {
             }
         }
 
-        // Function to move to the previous occurrence of the highlighted keyword
         function searchPrevious() {
             var currentHighlight = document.querySelector('.highlight');
+
             if (currentHighlight) {
                 currentHighlight.classList.remove('highlight');
                 var previousHighlight = currentHighlight.previousElementSibling;
+
                 if (previousHighlight) {
                     previousHighlight.classList.add('highlight');
                     previousHighlight.scrollIntoView({ behavior: 'smooth' });
                 }
             }
         }
+
+        function scrollToHighlighted() {
+            var highlightedElements = document.querySelectorAll('.highlight');
+            if (highlightedElements.length > 0) {
+                highlightedElements[0].scrollIntoView({ behavior: 'smooth' });
+            }
+        }
     </script>
 </head>
+
 <body onload="scrollToHighlighted()">
     <div class="container">
         <h1>Log Viewer</h1>
-    <!-- Search form with buttons for navigation -->
-    <form action="/" method="get">
-        <label for="search">Search:</label>
-        <input type="text" id="search" name="search" value="{{ search_keyword }}">
-        <input type="submit" value="Search">
-        <button type="button" onclick="searchNext()">Next</button>
-        <button type="button" onclick="searchPrevious()">Previous</button>
-    </form>
+        <form action="/" method="get">
+            <label for="search">Search:</label>
+            <input type="text" id="search" name="search" value="{{ search_keyword }}">
+            <input type="submit" value="Search">
+            <button class="next-button" type="button" onclick="searchNext()">Next</button>
+            <button class="previous-button" type="button" onclick="searchPrevious()">Previous</button>
+        </form>
 
-    <div class="log-entries">
-        <pre>
-            {% for entry in log_entries %}
-                <!-- Inside the <div class="log-entries"> ... </div> block in log_viewer.html -->
-                <div onclick="toggleLogDetails('{{ loop.index0 }}');" style="cursor: pointer;">
-                    <span id="arrow-{{ loop.index0 }}" class="arrow-down"></span> {{ entry | safe }}<br>
-                    <div class="log-details" id="details-{{ loop.index0 }}">
-                        {% if 'deployed_bots' in entry %}
-                            <!-- Decode HTML entities and display JSON data -->
-                            {% set decoded_entry = entry | replace('&lt;', '<') | replace('&gt;', '>') | replace('&quot;', '"') | replace('&#39;', "'") %}
-                            <pre>{{ decoded_entry | safe }}</pre>
-                        {% else %}
-                            {{ entry | safe }}
-                        {% endif %}
-                    </div>
+        <div class="log-entries">
+            <pre>
+                {% for entry in log_entries %}
+                <div style="cursor: pointer;">
+                    <span id="arrow-{{ loop.index }}" class="arrow-down"></span> {{ entry | safe }}<br>
+                    <button class="show-details" type="button" onclick="toggleLogDetails('{{ loop.index | int - 0 }}')">Show Details</button>
+
+                    <div class="log-details" id="details-{{ loop.index }}"></div>
                 </div>
-                
-            {% endfor %}
-        </pre>
+                {% endfor %}
+            </pre>
+        </div>
     </div>
-</div>
 </body>
+
 </html>

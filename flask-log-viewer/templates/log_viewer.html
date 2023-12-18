@@ -21,14 +21,15 @@
             {% for entry in log_entries %}
                 <div class="log-entry {{ entry.class }} hoverable" data-log-id="{{ loop.index }}">
                     <span id="arrow-{{ loop.index }}" class="arrow" onclick="toggleLogDetails({{ loop.index }})"></span>
-                    <div class="log-text">{{ entry.content | safe }}</div>
-                    <div id="details-{{ loop.index }}" class="log-details" style="display: none;">
-                        <pre>{{ entry.content | safe }}</pre>
+                    <div class="log-content">
+                        <div class="log-text">{{ entry.content | safe }}</div>
+                        <div id="details-{{ loop.index }}" class="log-details" style="display: none;">
+                            <pre>{{ entry.content | safe }}</pre>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
-
         <script>
             // Executes when the DOM is fully loaded
             document.addEventListener('DOMContentLoaded', function () {

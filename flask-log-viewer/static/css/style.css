@@ -56,17 +56,13 @@ h1 {
 
 /* Individual log entry styles */
 .log-container .log-entry {
-    align-items: center;
+    display: flex;
+    align-items: start;
     background-color: white;
     border-radius: 3px;
-    color: #24292e;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
     margin-bottom: 5px;
     padding: 10px;
     white-space: pre-wrap;
-    width: auto;
 }
 
 
@@ -181,3 +177,8 @@ a.back-button:hover {
     color: #ffffff;
 }
 
+/* New log content styling */
+.log-entry .log-content {
+    display: flex;
+    flex-direction: column;
+}

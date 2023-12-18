@@ -1,163 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Log Viewer</title>
-    <style></style>
-    <script>
-        var logEntries = {{ log_entries | tojson | safe }};
-
-        function toggleLogDetails(logId) {
-            var logDetails = document.getElementById('details-' + logId);
-            var arrow = document.getElementById('arrow-' + logId);
-
-            if (logDetails && arrow) {
-                logDetails.style.display = logDetails.style.display === 'block' ? 'none' : 'block';
-                arrow.classList.toggle('rotate');
-
-                if (logDetails.style.display === 'block') {
-                    var logEntry = logEntries[logId - 1];
-                    updateLogDetails(logEntry, logDetails);
-                }
-            }
-        }
-
-        function updateLogDetails(logEntry, logDetails) {
-            // Check log entry format and display accordingly
-            if (isJson(logEntry)) {
-                displayJsonDetails(logEntry, logDetails);
-            } else {
-                displayDefaultDetails(logEntry, logDetails);
-            }
-        }
-
-        function isJson(str) {
-            try {
-                JSON.parse(str);
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-
-        function displayDefaultDetails(logEntry, logDetails) {
-    // Split log entry into parts
-    var parts = logEntry.split(' - ');
-
-    // Check if there are enough parts
-    if (parts.length >= 4) {
-        var timestamp = parts[0];
-        var logLevel = parts[1].trim();
-        var logMessage = parts.slice(3).join(' - ');
-
-        // Initialize HTML variable
-        var html = '<div><strong>Timestamp:</strong> ' + timestamp + '</div>';
-        html += '<div><strong>Log Level:</strong> ' + logLevel + '</div>';
-
-        // Check log level and handle accordingly
-        if (logLevel === 'INFO' || logLevel === 'ERROR') {
-            // INFO and ERROR log specific handling
-            html += '<div><strong>Log Message:</strong></div><pre>' + logMessage + '</pre>';
-        } else {
-            // Check if the log message contains "deployed_bots ==="
-            var deployedBotsIndex = logMessage.indexOf('deployed_bots ===');
-
-            if (deployedBotsIndex !== -1) {
-                var jsonContent = logMessage.substring(deployedBotsIndex + 'deployed_bots ==='.length).trim();
-
-                try {
-                    var deployedBots = JSON.parse(jsonContent);
-
-                    // Display deployed bots
-                    html += '<div><strong>Deployed Bots:</strong></div>';
-                    deployedBots.forEach(function (bot) {
-                        html += '<div><pre>';
-                        html += 'BotName: ' + bot.BotName + '<br>';
-                        html += 'BotID: ' + bot.BotID + '<br>';
-                        html += 'DateCreated: ' + bot.DateCreated + '<br>';
-                        html += 'Languages: ' + JSON.stringify(bot.Languages) + '<br>';
-                        html += 'Platforms: ' + JSON.stringify(bot.Platforms) + '<br></pre></div>';
-                    });
-                } catch (e) {
-                    // JSON parsing failed, display default details without error message
-                    html += '<div><strong>Log Message:</strong></div><pre>' + logMessage + '</pre>';
-                }
-            } else {
-                // Default handling for other log levels
-                html += '<div><strong>Log Message:</strong></div><pre>' + logMessage + '</pre>';
-            }
-        }
-        // Set the HTML content for log details
-        logDetails.innerHTML = html;
-    } else {
-        // Handle default format if there are not enough parts
-        logDetails.innerHTML = '<pre>' + logEntry + '</pre>';
-    }
-}
-        function searchNext() {
-            var currentHighlight = document.querySelector('.highlight');
-
-            if (currentHighlight) {
-                currentHighlight.classList.remove('highlight');
-                var nextHighlight = currentHighlight.nextElementSibling;
-
-                if (nextHighlight) {
-                    nextHighlight.classList.add('highlight');
-                    nextHighlight.scrollIntoView({ behavior: 'smooth' });
-                }
-            }
-        }
-
-        function searchPrevious() {
-            var currentHighlight = document.querySelector('.highlight');
-
-            if (currentHighlight) {
-                currentHighlight.classList.remove('highlight');
-                var previousHighlight = currentHighlight.previousElementSibling;
-
-                if (previousHighlight) {
-                    previousHighlight.classList.add('highlight');
-                    previousHighlight.scrollIntoView({ behavior: 'smooth' });
-                }
-            }
-        }
-
-        function scrollToHighlighted() {
-            var highlightedElements = document.querySelectorAll('.highlight');
-            if (highlightedElements.length > 0) {
-                highlightedElements[0].scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-    </script>
 </head>
-
-<body onload="scrollToHighlighted()">
+<body class="light-mode">
     <div class="container">
         <h1>Log Viewer</h1>
-        <form action="/" method="get">
+        <form id="search-form" method="POST" action="/search">
             <label for="search">Search:</label>
             <input type="text" id="search" name="search" value="{{ search_keyword }}">
             <input type="submit" value="Search">
-            <button class="next-button" type="button" onclick="searchNext()">Next</button>
-            <button class="previous-button" type="button" onclick="searchPrevious()">Previous</button>
+            <a href="{{ url_for('all_entries') }}" class="back-button">Back</a>
         </form>
 
-        <div class="log-entries">
-            <pre>
-                {% for entry in log_entries %}
-                <div style="cursor: pointer;">
-                    <span id="arrow-{{ loop.index }}" class="arrow-down"></span> {{ entry | safe }}<br>
-                    <button class="show-details" type="button" onclick="toggleLogDetails('{{ loop.index | int - 0 }}')">Show Details</button>
-
-                    <div class="log-details" id="details-{{ loop.index }}"></div>
+        
+        <div class="log-container">
+            {% for entry in log_entries %}
+                <div class="log-entry {{ entry.class }} hoverable" data-log-id="{{ loop.index }}">
+                    <span id="arrow-{{ loop.index }}" class="arrow" onclick="toggleLogDetails({{ loop.index }})"></span>
+                    <div class="log-text">{{ entry.content | safe }}</div>
+                    <div id="details-{{ loop.index }}" class="log-details" style="display: none;">
+                        <pre>{{ entry.content | safe }}</pre>
+                    </div>
                 </div>
-                {% endfor %}
-            </pre>
+            {% endfor %}
         </div>
-    </div>
-</body>
 
+        <script>
+            // Executes when the DOM is fully loaded
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('DOM content loaded');
+                initializeJsonEntries();
+                setupEventListeners();
+            });
+    
+            // Scrolls to the highlighted element on page load
+            function scrollToHighlighted() {
+                var highlightedElements = document.querySelectorAll('.highlight');
+                if (highlightedElements.length > 0) {
+                    highlightedElements[0].scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+    
+            // Initializes the formatting of JSON entries
+            function initializeJsonEntries() {
+                var jsonEntries = document.querySelectorAll('.json-entry');
+                jsonEntries.forEach(function(entry) {
+                    var formattedJson = formatJson(entry.textContent);
+                    entry.textContent = formattedJson;
+                });
+            }
+    
+            // Sets up event listeners for form submission and container clicks
+            function setupEventListeners() {
+                document.getElementById('search-form').addEventListener('submit', handleFormSubmit);
+                document.querySelector('.container').addEventListener('click', handleContainerClick);
+            }
+    
+            // Handles the form submission event
+            function handleFormSubmit(event) {
+                event.preventDefault();
+                var keyword = document.getElementById('search').value;
+                filterLogEntries(keyword);
+            }
+    
+            // Handles click events within the container
+            function handleContainerClick(event) {
+                var target = event.target;
+                var logEntry = findParentLogEntry(target);
+                if (logEntry) {
+                    var logId = logEntry.dataset.logId;
+                    toggleLogDetails(logId);
+                }
+            }
+    
+            // Finds the parent log entry element
+            function findParentLogEntry(element) {
+                while (element && !element.classList.contains('log-entry')) {
+                    element = element.parentElement;
+                }
+                return element;
+            }
+    
+            // Toggles the display of log details
+            function toggleLogDetails(logId) {
+                var arrowElement = document.getElementById('arrow-' + logId);
+                var detailsElement = document.getElementById('details-' + logId);
+                if (detailsElement && arrowElement) {
+                    var isDisplayed = detailsElement.style.display === 'block';
+                    detailsElement.style.display = isDisplayed ? 'none' : 'block';
+                    arrowElement.classList.toggle('active');
+                    formatAndDisplayJson(logId, isDisplayed);
+                } else {
+                    console.error('Could not find elements for logId:', logId);
+                }
+            }
+    
+            // Formats and displays JSON data
+            function formatAndDisplayJson(logId, isDisplayed) {
+    if (!isDisplayed) {
+        var logEntry = document.querySelector('.log-entry[data-log-id="' + logId + '"]');
+        // Check if logEntry and logTextElement are not null
+        if (logEntry) {
+            var logTextElement = logEntry.querySelector('.log-text');
+            if (logTextElement && logTextElement.textContent.includes('deployed_bots ===')) {
+                var jsonPart = logTextElement.textContent.split('deployed_bots === ')[1];
+                var jsonString = jsonPart.replace(/'([^']*)'/g, '"$1"');
+                try {
+                    var jsonObject = JSON.parse(jsonString);
+                    var formattedJson = JSON.stringify(jsonObject, null, 4);
+                    var detailsElement = document.getElementById('details-' + logId);
+                    if (detailsElement) {
+                        detailsElement.textContent = formattedJson;
+                    }
+                } catch (e) {
+                    console.error('Error parsing JSON:', e);
+                }
+            }
+        }
+    }
+}
+
+    
+            // Checks if a string is valid JSON
+            function isJson(str) {
+                try {
+                    JSON.parse(str);
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+    
+            // Formats a JSON string with indentation
+            function formatJson(jsonStr) {
+                try {
+                    const jsonObj = JSON.parse(jsonStr);
+                    return JSON.stringify(jsonObj, null, 4);
+                } catch (e) {
+                    return jsonStr;
+                }
+            }
+    
+            // Filters log entries based on a keyword
+            function filterLogEntries(keyword) {
+                var logContainer = document.querySelector('.log-container');
+                var logEntries = document.querySelectorAll('.log-entry');
+                logContainer.innerHTML = '';
+                logEntries.forEach(function (logEntry) {
+                    filterAndHighlightEntry(logEntry, keyword, logContainer);
+                });
+                adjustContainerHeight(logContainer);
+            }
+    
+            // Filters and highlights a log entry based on the search keyword
+   
+function filterAndHighlightEntry(logEntry, keyword, logContainer) {
+    var logTextElement = logEntry.querySelector('.log-text');
+    if (logTextElement) {
+        var logText = logTextElement.textContent;
+        var lowerCaseLogText = logText.toLowerCase();
+        var lowerCaseKeyword = keyword.toLowerCase();
+        var matchesKeyword = lowerCaseLogText.includes(lowerCaseKeyword);
+
+        if (keyword === '' || matchesKeyword) {
+            // Highlight matching keyword within the text content
+            logTextElement.innerHTML = logText.replace(new RegExp(lowerCaseKeyword, 'ig'), match => `<span class="highlight">${match}</span>`);
+            
+            // Append the log entry to the log container
+            logContainer.appendChild(logEntry);
+        }
+    }
+}
+    
+            // Highlights the matching keyword in the log entry
+            function highlightMatch(logEntry, lowerCaseKeyword) {
+                if (lowerCaseKeyword) {
+                    var logText = logEntry.textContent;
+                    logEntry.innerHTML = logText.replace(new RegExp(lowerCaseKeyword, 'ig'), match => `<span class="highlight">${match}</span>`);
+                }
+            }
+    
+            // Adjusts the height of the log container
+            function adjustContainerHeight(logContainer) {
+                logContainer.style.height = (logContainer.children.length > 0) ? 'auto' : '0';
+            }
+    
+            // Extracts and parses JSON from a log entry
+            function extractAndParseJson(logEntry) {
+                var startIndex = logEntry.indexOf('deployed_bots ===');
+                if (startIndex === -1) {
+                    console.error('JSON-like part not found');
+                    return;
+                }
+                var jsonString = logEntry.substring(startIndex + 'deployed_bots ==='.length).trim();
+                jsonString = jsonString.replace(/'/g, '"');
+                try {
+                    var jsonObject = JSON.parse(jsonString);
+                    console.log('Extracted JSON Object:', jsonObject);
+                    return jsonObject;
+                } catch (e) {
+                    console.error('Error parsing JSON:', e);
+                }
+            }
+        </script>
+</body>
 </html>

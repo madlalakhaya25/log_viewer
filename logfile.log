@@ -43,6 +43,10 @@ Traceback (most recent call last):
 UnboundLocalError: local variable 'project_name' referenced before assignment
 2023-11-21 08:19:00,906 - INFO - functionName:knowledge_base -- line:7066 -  Changing How do I view my messages on BridgeApp to faq/messages_on_app 
 2023-11-21 08:19:00,907 - ERROR - functionName:log_exception -- line:1891 - Exception on /knowledge_base [POST]
+2023-11-21 08:19:00,907 - CRITICAL - functionName:log_exception -- line:1891 - Exception on /knowledge_base [POST]
+2023-11-21 08:19:00,907 - WARNING - functionName:log_exception -- line:1891 - Exception on /knowledge_base [POST]
+2023-11-21 08:19:00,907 - DEBUG - functionName:log_exception -- line:1891 - Exception on /knowledge_base [POST]
+023-11-21 08:19:00,906 - NOTICE- functionName:knowledge_base -- line:7066 -  Changing How do I view my messages on BridgeApp to faq/messages_on_app 
 Traceback (most recent call last):
   File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()

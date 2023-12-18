@@ -56,71 +56,56 @@ h1 {
 
 /* Individual log entry styles */
 .log-container .log-entry {
-    display: flex;
     align-items: start;
-    background-color: white;
+    background-color: #FFFFFF;
     border-radius: 3px;
+    display: flex;
     margin-bottom: 5px;
     padding: 10px;
     white-space: pre-wrap;
 }
 
-
-/* Individual log entry styles */
 .log-container .log-entry:nth-child(odd) {
-    background-color: #f0f0f0; /* Light grey for odd log entries */
-}
-
-.log-container .log-entry:nth-child(even) {
-    background-color: white; /* White for even log entries */
+    background-color: #f0f0f0;
 }
 
 /* Log entry classification styles */
-/* Error log entry styles */
-.log-entry.error {
-    background-color: #FFDDDD;
-    color: #FF0000;
-}
-
-/* Define styles for warning log entries */
-.log-entry.warning {
-    background-color: #FFFFCC;
-    color: #FFA500;
-}
-
-/* Define styles for info log entries */
-.log-entry.info {
-    background-color: #E0E0E0;
-    color: #000000;
-}
-
-/* Define styles for normal log entries */
-.log-entry.normal {
-    background-color: #FFFFFF;
-    color: #000000;
-}
-
-/* Critical log entry styles */
 .log-entry.critical {
     background-color: #FFBABA;
     color: #D8000C;
 }
 
-/* Debug log entry styles */
 .log-entry.debug {
     background-color: #D5E8D4;
     color: #567735;
 }
 
-/* Notice log entry styles */
+.log-entry.error {
+    background-color: #FFDDDD;
+    color: #FF0000;
+}
+
+.log-entry.info {
+    background-color: #E0E0E0;
+    color: #000000;
+}
+
+.log-entry.normal {
+    color: #000000;
+}
+
 .log-entry.notice {
     background-color: #EFEFB3;
     color: #8C8C00;
 }
 
-.log-entry.hoverable:hover {
+.log-entry.warning {
+    background-color: #FFFFCC;
+    color: #FFA500;
+}
 
-    cursor: pointer; /* Change the cursor to a pointer on hover */
+.log-entry.hoverable:hover {
+    cursor: pointer;
 }
 
 /* Arrow styles for collapsible sections */

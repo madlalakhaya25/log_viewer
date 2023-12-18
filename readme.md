@@ -24,8 +24,3 @@ This application is a Flask-based web app designed to display and search through
 - Use the search bar to filter entries based on keywords.
 - Click on a log entry to view more details.
 
-## Contributing
-Contributions to the project are welcome. Please fork the repository and submit a pull request with your changes.
-
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.

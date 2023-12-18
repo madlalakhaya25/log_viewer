@@ -3,6 +3,7 @@
 2023-11-21 07:46:08,016 - INFO - functionName:deployed_bots -- line:7876 - deployed_bots === [{'BotName': 'gradematchBot', 'BotID': 'KSRGFOBIMYNTTKZV', 'DateCreated': '2023-11-20', 'Languages': {'English': {'S': 'Grad-grad-Engl-z7yqgndj'}}, 'Platforms': ['API', 'Whatsapp-Meta', 'Whatsapp-Meta', 'Whatsapp-Meta']}]
 2023-11-21 07:46:11,354 - INFO - functionName:dashboard -- line:2469  -  Getting existing chatbots....for Org - DemoOrganisation, Version - latest.
 2023-11-21 07:46:11,882 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for Capitec....for Org - DemoOrganisation, Version - latest.
+2023-11-21 07:46:08,016 - INFO - functionName:deployed_bots -- line:7876 - deployed_bots === [{'BotName': 'Khaya Madlala', 'DateCreated': '2023-11-20', 'Languages': {'English': {'S': 'Grad-grad-Engl-z7yqgndj'}}, 'Platforms': ['API', 'Whatsapp-Meta', 'Whatsapp-Meta', 'Whatsapp-Meta']}]
 2023-11-21 07:46:12,689 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for EliasMotsoalediMunicipality....for Org - DemoOrganisation, Version - latest.
 2023-11-21 07:46:13,275 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for FNB....for Org - DemoOrganisation, Version - latest.
 2023-11-21 07:46:13,841 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for FNBBot....for Org - DemoOrganisation, Version - latest.

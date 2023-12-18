@@ -1,7 +1,5 @@
-// script.js
-
 // Executes when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM content loaded');
     initializeJsonEntries();
     setupEventListeners();
@@ -9,17 +7,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Scrolls to the highlighted element on page load
 function scrollToHighlighted() {
-    var highlightedElements = document.querySelectorAll('.highlight');
+    const highlightedElements = document.querySelectorAll('.highlight');
     if (highlightedElements.length > 0) {
         highlightedElements[0].scrollIntoView({ behavior: 'smooth' });
     }
 }
 
-// Initializes the formatting of JSON entries
+// Initializes the formatting of JSON entries in log text
 function initializeJsonEntries() {
-    var jsonEntries = document.querySelectorAll('.json-entry');
-    jsonEntries.forEach(function(entry) {
-        var formattedJson = formatJson(entry.textContent);
+    const jsonEntries = document.querySelectorAll('.json-entry');
+    jsonEntries.forEach(entry => {
+        const formattedJson = formatJson(entry.textContent);
         entry.textContent = formattedJson;
     });
 }
@@ -30,24 +28,24 @@ function setupEventListeners() {
     document.querySelector('.container').addEventListener('click', handleContainerClick);
 }
 
-// Handles the form submission event
+// Handles the form submission event for the search form
 function handleFormSubmit(event) {
     event.preventDefault();
-    var keyword = document.getElementById('search').value;
+    const keyword = document.getElementById('search').value;
     filterLogEntries(keyword);
 }
 
-// Handles click events within the container
+// Handles click events within the log container
 function handleContainerClick(event) {
-    var target = event.target;
-    var logEntry = findParentLogEntry(target);
+    const target = event.target;
+    const logEntry = findParentLogEntry(target);
     if (logEntry) {
-        var logId = logEntry.dataset.logId;
+        const logId = logEntry.dataset.logId;
         toggleLogDetails(logId);
     }
 }
 
-// Finds the parent log entry element
+// Finds the parent log entry element of a given element
 function findParentLogEntry(element) {
     while (element && !element.classList.contains('log-entry')) {
         element = element.parentElement;
@@ -55,12 +53,12 @@ function findParentLogEntry(element) {
     return element;
 }
 
-// Toggles the display of log details
+// Toggles the display of log details on click
 function toggleLogDetails(logId) {
-    var arrowElement = document.getElementById('arrow-' + logId);
-    var detailsElement = document.getElementById('details-' + logId);
+    const arrowElement = document.getElementById('arrow-' + logId);
+    const detailsElement = document.getElementById('details-' + logId);
     if (detailsElement && arrowElement) {
-        var isDisplayed = detailsElement.style.display === 'block';
+        const isDisplayed = detailsElement.style.display === 'block';
         detailsElement.style.display = isDisplayed ? 'none' : 'block';
         arrowElement.classList.toggle('active');
         formatAndDisplayJson(logId, isDisplayed);
@@ -69,19 +67,19 @@ function toggleLogDetails(logId) {
     }
 }
 
-// Formats and displays JSON data
+// Formats and displays JSON data for a specific log entry
 function formatAndDisplayJson(logId, isDisplayed) {
     if (!isDisplayed) {
-        var logEntry = document.querySelector('.log-entry[data-log-id="' + logId + '"]');
+        const logEntry = document.querySelector(`.log-entry[data-log-id="${logId}"]`);
         if (logEntry) {
-            var logTextElement = logEntry.querySelector('.log-text');
+            const logTextElement = logEntry.querySelector('.log-text');
             if (logTextElement && logTextElement.textContent.includes('deployed_bots ===')) {
-                var jsonPart = logTextElement.textContent.split('deployed_bots === ')[1];
-                var jsonString = jsonPart.replace(/'([^']*)'/g, '"$1"');
+                const jsonPart = logTextElement.textContent.split('deployed_bots === ')[1];
+                const jsonString = jsonPart.replace(/'([^']*)'/g, '"$1"');
                 try {
-                    var jsonObject = JSON.parse(jsonString);
-                    var formattedJson = JSON.stringify(jsonObject, null, 4);
-                    var detailsElement = document.getElementById('details-' + logId);
+                    const jsonObject = JSON.parse(jsonString);
+                    const formattedJson = JSON.stringify(jsonObject, null, 4);
+                    const detailsElement = document.getElementById('details-' + logId);
                     if (detailsElement) {
                         detailsElement.textContent = formattedJson;
                     }
@@ -93,7 +91,7 @@ function formatAndDisplayJson(logId, isDisplayed) {
     }
 }
 
-// Checks if a string is valid JSON
+// Checks if a string is a valid JSON format
 function isJson(str) {
     try {
         JSON.parse(str);
@@ -103,7 +101,7 @@ function isJson(str) {
     }
 }
 
-// Formats a JSON string with indentation
+// Formats a JSON string with proper indentation
 function formatJson(jsonStr) {
     try {
         const jsonObj = JSON.parse(jsonStr);
@@ -113,12 +111,12 @@ function formatJson(jsonStr) {
     }
 }
 
-// Filters log entries based on a keyword
+// Filters log entries based on a search keyword
 function filterLogEntries(keyword) {
-    var logContainer = document.querySelector('.log-container');
-    var logEntries = document.querySelectorAll('.log-entry');
+    const logContainer = document.querySelector('.log-container');
+    const logEntries = document.querySelectorAll('.log-entry');
     logContainer.innerHTML = '';
-    logEntries.forEach(function (logEntry) {
+    logEntries.forEach(logEntry => {
         filterAndHighlightEntry(logEntry, keyword, logContainer);
     });
     adjustContainerHeight(logContainer);
@@ -126,22 +124,21 @@ function filterLogEntries(keyword) {
 
 // Filters and highlights a log entry based on the search keyword
 function filterAndHighlightEntry(logEntry, keyword, logContainer) {
-    var logTextElement = logEntry.querySelector('.log-text');
+    const logTextElement = logEntry.querySelector('.log-text');
     if (logTextElement) {
-        var logText = logTextElement.textContent;
-        var lowerCaseLogText = logText.toLowerCase();
-        var lowerCaseKeyword = keyword.toLowerCase();
-        var matchesKeyword = lowerCaseLogText.includes(lowerCaseKeyword);
+        const logText = logTextElement.textContent;
+        const lowerCaseLogText = logText.toLowerCase();
+        const lowerCaseKeyword = keyword.toLowerCase();
+        const matchesKeyword = lowerCaseLogText.includes(lowerCaseKeyword);
 
         if (keyword === '' || matchesKeyword) {
             logTextElement.innerHTML = logText.replace(new RegExp(lowerCaseKeyword, 'ig'), match => `<span class="highlight">${match}</span>`);
-            logContainer.appendChild(logEntry);
+            logContainer.appendChild(logEntry.cloneNode(true));
         }
     }
 }
 
-// Adjusts the height of the log container
+// Adjusts the height of the log container based on its content
 function adjustContainerHeight(logContainer) {
-    logContainer.style.height = (logContainer.children.length > 0) ? 'auto' : '0';
+    logContainer.style.height = logContainer.children.length > 0 ? 'auto' : '0';
 }
-

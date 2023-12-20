@@ -1,0 +1,68 @@
+2023-11-21 07:45:41,578 - INFO - functionName:health -- line:409 -  Redis is up
+2023-11-21 07:46:00,596 - INFO - functionName:deployed_bots -- line:7876 - deployed_bots === [{'BotName': 'gradematchBot', 'BotID': 'KSRGFOBIMYNTTKZV', 'DateCreated': '2023-11-20', 'Languages': {'English': {'S': 'Grad-grad-Engl-z7yqgndj'}}, 'Platforms': ['API', 'Whatsapp-Meta', 'Whatsapp-Meta', 'Whatsapp-Meta']}]
+2023-11-21 07:46:08,016 - INFO - functionName:deployed_bots -- line:7876 - deployed_bots === [{'BotName': 'gradematchBot', 'BotID': 'KSRGFOBIMYNTTKZV', 'DateCreated': '2023-11-20', 'Languages': {'English': {'S': 'Grad-grad-Engl-z7yqgndj'}}, 'Platforms': ['API', 'Whatsapp-Meta', 'Whatsapp-Meta', 'Whatsapp-Meta']}]
+2023-11-21 07:46:11,354 - INFO - functionName:dashboard -- line:2469  -  Getting existing chatbots....for Org - DemoOrganisation, Version - latest.
+2023-11-21 07:46:11,882 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for Capitec....for Org - DemoOrganisation, Version - latest.
+2023-11-21 07:46:08,016 - INFO - functionName:deployed_bots -- line:7876 - deployed_bots === [{'BotName': 'Khaya Madlala', 'DateCreated': '2023-11-20', 'Languages': {'English': {'S': 'Grad-grad-Engl-z7yqgndj'}}, 'Platforms': ['API', 'Whatsapp-Meta', 'Whatsapp-Meta', 'Whatsapp-Meta']}]
+2023-11-21 07:46:12,689 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for EliasMotsoalediMunicipality....for Org - DemoOrganisation, Version - latest.
+2023-11-21 07:46:13,275 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for FNB....for Org - DemoOrganisation, Version - latest.
+2023-11-21 07:46:13,841 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for FNBBot....for Org - DemoOrganisation, Version - latest.
+2023-11-21 07:46:14,440 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for FinalBot....for Org - DemoOrganisation, Version - latest.
+2023-11-21 07:46:15,147 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for Freedom-Life....for Org - DemoOrganisation, Version - latest.
+2023-11-21 07:46:15,821 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for MultiChoice....for Org - DemoOrganisation, Version - latest.
+2023-11-21 07:46:16,465 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for eduBot....for Org - DemoOrganisation, Version - latest.
+2023-11-21 07:46:17,046 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for gradematchBot....for Org - DemoOrganisation, Version - latest.
+2023-11-21 07:46:17,664 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for handoffBot....for Org - DemoOrganisation, Version - latest.
+2023-11-21 07:46:18,212 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for matBot....for Org - DemoOrganisation, Version - latest.
+2023-11-21 07:46:18,788 - INFO - functionName:dashboard -- line:2486  -  Fetching metadata for qwiliBot....for Org - DemoOrganisation, Version - latest.
+2023-11-21 07:46:34,013 - INFO - functionName:deployed_bots -- line:7876 - deployed_bots === [{'BotName': 'gradematchBot', 'BotID': 'KSRGFOBIMYNTTKZV', 'DateCreated': '2023-11-20', 'Languages': {'English': {'S': 'Grad-grad-Engl-z7yqgndj'}}, 'Platforms': ['API', 'Whatsapp-Meta', 'Whatsapp-Meta', 'Whatsapp-Meta']}]
+2023-11-21 07:46:45,978 - INFO - functionName:health -- line:409 -  Redis is up
+2023-11-21 07:46:55,595 - INFO - functionName:deployed_bots -- line:7876 - deployed_bots === [{'BotName': 'gradematchBot', 'BotID': 'KSRGFOBIMYNTTKZV', 'DateCreated': '2023-11-20', 'Languages': {'English': {'S': 'Grad-grad-Engl-z7yqgndj'}}, 'Platforms': ['API', 'Whatsapp-Meta', 'Whatsapp-Meta', 'Whatsapp-Meta']}]
+2023-11-21 07:48:16,046 - INFO - functionName:health -- line:409  -  Redis is up
+2023-11-21 07:48:29,351 - INFO - functionName:deploy -- line:6352 -  Getting existing deployments....for Org - DemoOrganisation
+2023-11-21 07:48:33,140 - INFO - functionName:deployed_bots -- line:7876 - deployed_bots === [{'BotName': 'MultiChoice', 'BotID': 'DVUTYDVYIYYMBVXX', 'DateCreated': '2023-10-12', 'Languages': {'IsiZulu': {'S': 'Demo-Mult-IsiZ-be7vjz6w'}}, 'Platforms': ['API', 'WhatsApp']}, {'BotName': 'handoffBot', 'BotID': 'FNLAVYWRACPRMLXK', 'DateCreated': '2023-11-20', 'Languages': {'English': {'S': 'Demo-hand-Engl-381e3oak'}}, 'Platforms': ['API']}, {'BotName': 'gradematchBot', 'BotID': 'FKVWHRPAHYPTXVXY', 'DateCreated': '2023-11-20', 'Languages': {'English': {'S': 'Demo-grad-Engl-edebtkp6'}}, 'Platforms': ['API', 'Whatsapp-Meta']}]
+2023-11-21 08:18:16,376 - INFO - functionName:health -- line:409 -  Redis is up
+2023-11-21 08:18:47,179 - INFO - functionName:knowledge_base -- line:7066  -  Changing /rate_bot_service to rate_bot_service 
+2023-11-21 08:18:47,179 - ERROR - functionName:log_exception -- line:1891 - Exception on /knowledge_base [POST]
+Traceback (most recent call last):
+  File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/ubuntu/app/backoffice2/app.py", line 7079, in knowledge_base
+    nlu_contents = get_nlu_contents(current_user.org, project_name, current_user.current_version, language)
+UnboundLocalError: local variable 'project_name' referenced before assignment
+2023-11-21 08:19:00,906 - INFO - functionName:knowledge_base -- line:7066 -  Changing How do I view my messages on BridgeApp to faq/messages_on_app 
+2023-11-21 08:19:00,907 - ERROR - functionName:log_exception -- line:1891 - Exception on /knowledge_base [POST]
+2023-11-21 08:19:00,907 - CRITICAL - functionName:log_exception -- line:1891 - Exception on /knowledge_base [POST]
+2023-11-21 08:19:00,907 - WARNING - functionName:log_exception -- line:1891 - Exception on /knowledge_base [POST]
+2023-11-21 08:19:00,907 - DEBUG - functionName:log_exception -- line:1891 - Exception on /knowledge_base [POST]
+023-11-21 08:19:00,906 - NOTICE- functionName:knowledge_base -- line:7066 -  Changing How do I view my messages on BridgeApp to faq/messages_on_app 
+Traceback (most recent call last):
+  File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/ubuntu/app/env/lib/python3.9/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/ubuntu/app/backoffice2/app.py", line 7079, in knowledge_base
+    nlu_contents = get_nlu_contents(current_user.org, project_name, current_user.current_version, language)
+UnboundLocalError: local variable 'project_name' referenced before assignment

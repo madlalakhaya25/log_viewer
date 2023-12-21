@@ -1,8 +1,11 @@
+let originalLogEntries = []; // Global variable to store original log entries
+
 // Executes when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM content loaded');
     initializeJsonEntries();
     setupEventListeners();
+    storeOriginalLogEntries();
 });
 
 // Scrolls to the highlighted element on page load
@@ -20,6 +23,12 @@ function initializeJsonEntries() {
         const formattedJson = formatJson(entry.textContent);
         entry.textContent = formattedJson;
     });
+}
+
+// Stores a copy of the original log entries
+function storeOriginalLogEntries() {
+    const logEntries = document.querySelectorAll('.log-entry');
+    originalLogEntries = Array.from(logEntries).map(entry => entry.cloneNode(true));
 }
 
 // Sets up event listeners for form submission and container clicks
@@ -114,9 +123,8 @@ function formatJson(jsonStr) {
 // Filters log entries based on a search keyword
 function filterLogEntries(keyword) {
     const logContainer = document.querySelector('.log-container');
-    const logEntries = document.querySelectorAll('.log-entry');
     logContainer.innerHTML = '';
-    logEntries.forEach(logEntry => {
+    originalLogEntries.forEach(logEntry => {
         filterAndHighlightEntry(logEntry, keyword, logContainer);
     });
     adjustContainerHeight(logContainer);
